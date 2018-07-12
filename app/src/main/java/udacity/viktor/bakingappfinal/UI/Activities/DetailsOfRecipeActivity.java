@@ -159,6 +159,7 @@ implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFrag
         getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             getSupportFragmentManager().beginTransaction().
                     add(R.id.recipe_steps_container, detailsListStepFragment).
+                  //  addToBackStack(null).
                     commit();
 
         }
@@ -177,9 +178,14 @@ implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFrag
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
-        if (fm.getBackStackEntryCount() > 0) {
+        if (fm.getBackStackEntryCount() > 1) {
             Log.i("MainActivity", "popping backstack");
-            fm.popBackStack();
+            int count = fm.getBackStackEntryCount();
+            for(int i = 0; i < count; ++i) {
+                fm.popBackStackImmediate();
+            }
+//           fm.popBackStackImmediate();
+//            fm.popBackStack();
         } else {
             Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
@@ -194,7 +200,7 @@ implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFrag
     }
 
     @Override
-    public void setCurrentStep(int index) {
+    public void setCurrentStep(int index, boolean firstTime) {
         if(!mTwoPane)
         {
             DetailStepFragment detailStepFragment = new DetailStepFragment();
@@ -203,9 +209,18 @@ implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFrag
             bundle.putInt("current_step", index);
             bundle.putBoolean("is_tablet", false);
             detailStepFragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().
-                    replace(R.id.recipe_steps_container, detailStepFragment).
-            addToBackStack(null).commit();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if(firstTime) {
+               fragmentManager.beginTransaction().
+                        replace(R.id.recipe_steps_container, detailStepFragment, "root_fragment").
+                        addToBackStack(null).commit();
+            }
+            else
+            {
+                fragmentManager.beginTransaction().
+                        replace(R.id.recipe_steps_container, detailStepFragment, "new_fragment").
+                        addToBackStack(null).commit();
+            }
 
         }
         else
@@ -218,6 +233,7 @@ implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFrag
             detailStepFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.recipe_information_container, detailStepFragment).
+
                     commit();
 
         }

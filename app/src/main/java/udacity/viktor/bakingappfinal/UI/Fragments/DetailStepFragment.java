@@ -6,6 +6,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,6 +72,8 @@ private ConstraintLayout navigation;
 private TextView shortDesc;
 private TextView fullDesc;
 private ImageView coverOfVideo;
+private FloatingActionButton back;
+private FloatingActionButton forward;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -112,7 +115,7 @@ private ImageView coverOfVideo;
 
         if(mTwoPane)
         {
-           // navigation.setVisibility(View.GONE);
+            navigation.setVisibility(View.GONE);
         }
         else
         {
@@ -181,12 +184,36 @@ private ImageView coverOfVideo;
         shortDesc = view.findViewById(R.id.shortdesc);
         fullDesc = view.findViewById(R.id.fulldesc);
         coverOfVideo = view.findViewById(R.id.launcher);
-
-
-
+        back = view.findViewById(R.id.back);
+        forward = view.findViewById(R.id.forward);
         ManagePlayerAndView();
+        manageFloatingAction();
 
         return view;
+    }
+    private void  manageFloatingAction()
+    {
+        if(current_step_index==0)
+        {
+            back.setVisibility(View.INVISIBLE);
+        }
+        if(current_step_index==stepList.size()-1)
+        {
+            forward.setVisibility(View.INVISIBLE);
+        }
+        forward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailsListListener.setCurrentStep(current_step_index+1, false);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailsListListener.setCurrentStep(current_step_index-1, false);
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -204,7 +231,7 @@ private ImageView coverOfVideo;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         }
-        else if(context instanceof DetailsListListener)
+        if(context instanceof DetailsListListener)
         {
             this.detailsListListener = (DetailsListListener) context;
         }

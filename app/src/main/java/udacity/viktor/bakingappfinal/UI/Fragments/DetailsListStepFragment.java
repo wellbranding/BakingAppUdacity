@@ -127,7 +127,7 @@ public class DetailsListStepFragment extends Fragment{
             public void OnItemClick(int position) {
 
                 Log.d("position", String.valueOf(position));
-                detailsListListener.setCurrentStep(position);
+                detailsListListener.setCurrentStep(position, true);
             }
         });
 
@@ -195,6 +195,8 @@ public class DetailsListStepFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_details_list_step, container, false);
+
+
 
 //        Toolbar toolbar = view.findViewById(R.id.toolbar3);
 //        if(!mTwoPane) {
