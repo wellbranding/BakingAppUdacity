@@ -21,9 +21,12 @@ import udacity.viktor.bakingappfinal.db.MainDatabase;
 
 public class BakingAppWidgetService extends RemoteViewsService {
 
+    @Inject
+    SharedPreferences sharedPreferences;
     @Override
-    public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return null;
+    public RemoteViewsFactory onGetViewFactory(Intent intent)
+    {
+        return new BakingAppWidgetRemoteViewsFactory(getApplicationContext(), sharedPreferences);
     }
 
     @Override
@@ -49,16 +52,16 @@ public class BakingAppWidgetService extends RemoteViewsService {
 
         MainDatabase mainDatabase;
         Context mContext;
-        @Inject
-        SharedPreferences sharedPreferences;
+       SharedPreferences sharedPreferences;
         List<Ingredient> ingredientList;
 
 
-        public BakingAppWidgetRemoteViewsFactory(Context context)
+        public BakingAppWidgetRemoteViewsFactory(Context context, SharedPreferences sharedPreferences)
         {
             mainDatabase = Room.databaseBuilder(context, MainDatabase.class,"baking_app" )
                     .build();
             mContext = context;
+            this.sharedPreferences = sharedPreferences;
 
 
         }
@@ -109,9 +112,17 @@ public class BakingAppWidgetService extends RemoteViewsService {
                 return null;
             }
 
-            RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.text_view_widget);
-            remoteViews.setTextViewText();
+            String formated = ingredientList.get(position).getIngredient() + " " +
+                    ingredientList.get(position).getQuantity() + " " +
+                    ingredientList.get(position).getMeasure();
 
+
+            RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.text_view_widget);
+            remoteViews.setTextViewText(R.id.list_view_item_widget,
+                    formated );
+            Intent fillIntent = new Intent();
+            remoteViews.setOnClickFillInIntent(R.id.list_view_item_widget, fillIntent );
+            return  remoteViews;
         }
 
         @Override
@@ -121,17 +132,17 @@ public class BakingAppWidgetService extends RemoteViewsService {
 
         @Override
         public int getViewTypeCount() {
-            return 0;
+            return 1;
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
         public boolean hasStableIds() {
-            return false;
+            return true;
         }
     }
 }

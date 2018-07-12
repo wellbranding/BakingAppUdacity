@@ -182,6 +182,8 @@ private ImageView coverOfVideo;
         fullDesc = view.findViewById(R.id.fulldesc);
         coverOfVideo = view.findViewById(R.id.launcher);
 
+
+
         ManagePlayerAndView();
 
         return view;
@@ -196,8 +198,8 @@ private ImageView coverOfVideo;
 
     @Override
     public void onAttach(Context context) {
-        super.onAttach(context);
         AndroidSupportInjection.inject(this);
+        super.onAttach(context);
         mContext = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;

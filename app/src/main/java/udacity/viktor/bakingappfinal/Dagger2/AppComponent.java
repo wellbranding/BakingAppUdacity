@@ -2,6 +2,7 @@ package udacity.viktor.bakingappfinal.Dagger2;
 
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
@@ -10,6 +11,7 @@ import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import udacity.viktor.bakingappfinal.App;
 import udacity.viktor.bakingappfinal.UI.Fragments.DetailStepFragment;
+import udacity.viktor.bakingappfinal.Widget.BakingAppWidget;
 import udacity.viktor.bakingappfinal.Widget.BakingAppWidgetService;
 
 @Singleton
@@ -30,6 +32,7 @@ public interface AppComponent {
         AppComponent build();
 
     }
+    void inject(BakingAppWidget bakingAppWidget);
 
 }
 

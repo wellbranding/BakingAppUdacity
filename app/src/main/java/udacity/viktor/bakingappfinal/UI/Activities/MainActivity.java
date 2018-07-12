@@ -76,9 +76,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AndroidInjection.inject(this);
-     Random r = new Random();
-     int i5 = r.nextInt(70-15) + 15;
-        sharedPreferences.edit().putInt("required", i5 ).apply();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         progressBar = findViewById(R.id.progressBar);
@@ -117,11 +114,11 @@ public class MainActivity extends AppCompatActivity {
                bundle.putString("single_recipe_name", mRecipesList.get(position).getName());
                bundle.putParcelableArrayList("recipe_steps",  (ArrayList<? extends Parcelable>)
                        mRecipesList.get(position).getSteps());
+               bundle.putInt("recipe_id", position);
                bundle.putParcelableArrayList("recipe_ingridients",  (ArrayList<? extends Parcelable>)
                        mRecipesList.get(position).getIngredients());
                intent.putExtra("values", bundle);
                startActivity(intent);
-
 
            }
        });

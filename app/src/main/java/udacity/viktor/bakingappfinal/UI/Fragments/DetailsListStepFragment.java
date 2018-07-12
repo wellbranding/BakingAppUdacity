@@ -1,5 +1,6 @@
 package udacity.viktor.bakingappfinal.UI.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
@@ -7,20 +8,25 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 
+import dagger.android.support.AndroidSupportInjection;
 import udacity.viktor.bakingappfinal.Data.Networking.Models.Ingredient;
 import udacity.viktor.bakingappfinal.Data.Networking.Models.Step;
 import udacity.viktor.bakingappfinal.R;
@@ -64,6 +70,8 @@ public class DetailsListStepFragment extends Fragment{
     private DetailsListStepFragment detailsListStepFragment;
     private DetailsListListener detailsListListener;
 
+    boolean mTwoPane;
+
     public DetailsListStepFragment() {
         // Required empty public constructor
     }
@@ -98,6 +106,7 @@ public class DetailsListStepFragment extends Fragment{
             mParam2 = getArguments().getString(ARG_PARAM2);
             ingredientList = getArguments().getParcelableArrayList("recipe_ingridients");
             stepList = getArguments().getParcelableArrayList("recipe_steps");
+            mTwoPane = getArguments().getBoolean("is_tablet");
         }
 
 
@@ -186,11 +195,39 @@ public class DetailsListStepFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_details_list_step, container, false);
-        InitializeViewPager(view);
+
+//        Toolbar toolbar = view.findViewById(R.id.toolbar3);
+//        if(!mTwoPane) {
+//            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    getActivity().onBackPressed();
+//                }
+//            });
+//            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+//            Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setTitle("\"City\"");
+//            Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+//            Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+//        }
+//        else
+//            toolbar.setVisibility(View.INVISIBLE);
         InitializeRecyclerView(view);
+       InitializeViewPager(view);
         return view;
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            requireActivity().onBackPressed();
+            ; // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -201,7 +238,9 @@ public class DetailsListStepFragment extends Fragment{
 
     @Override
     public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
         super.onAttach(context);
+
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         }
