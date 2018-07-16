@@ -7,6 +7,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,8 +15,7 @@ import udacity.viktor.bakingappfinal.DataConverterIngredients;
 import udacity.viktor.bakingappfinal.DataConverterStep;
 
 @Entity
-public class Recipe implements Parcelable
-{
+public class Recipe implements Parcelable {
     @PrimaryKey
     @SerializedName("id")
     @Expose
@@ -51,8 +51,7 @@ public class Recipe implements Parcelable
             return (new Recipe[size]);
         }
 
-    }
-            ;
+    };
 
     protected Recipe(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));

@@ -9,30 +9,27 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import udacity.viktor.bakingappfinal.Data.Networking.Models.Ingredient;
-import udacity.viktor.bakingappfinal.Data.Networking.Models.Step;
 
 public class DataConverterIngredients {
     @TypeConverter
-    public String fromCountryLangList(List<Ingredient> countryLang) {
-        if (countryLang == null) {
+    public String fromRoom(List<Ingredient> roomValue) {
+        if (roomValue == null) {
             return (null);
         }
         Gson gson = new Gson();
         Type type = new TypeToken<List<Ingredient>>() {
         }.getType();
-        String json = gson.toJson(countryLang, type);
-        return json;
+        return gson.toJson(roomValue, type);
     }
 
     @TypeConverter
-    public List<Ingredient> toCountryLangList(String countryLangString) {
-        if (countryLangString == null) {
+    public List<Ingredient> toIngredients(String ingredient) {
+        if (ingredient == null) {
             return (null);
         }
         Gson gson = new Gson();
         Type type = new TypeToken<List<Ingredient>>() {
         }.getType();
-        List<Ingredient> countryLangList = gson.fromJson(countryLangString, type);
-        return countryLangList;
+        return gson.fromJson(ingredient, type);
     }
 }

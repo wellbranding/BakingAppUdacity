@@ -38,7 +38,6 @@ public class RecipiesRepository {
 
     }
 
-
     public LiveData<Resource<List<Recipe>>> loadRecipes() {
         return new NetworkBoundResource<List<Recipe>,List<Recipe>>(appExecutors) {
             @Override
@@ -62,15 +61,6 @@ public class RecipiesRepository {
                 return RetrofitFactory.create().getRecipes();
             }
         }.getAsLiveData();
-    }
-    private APIService InitializeRetrofit()
-    {
-        return new Retrofit.Builder()
-                .baseUrl("https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
-                .build()
-                .create(APIService.class);
     }
 }
 

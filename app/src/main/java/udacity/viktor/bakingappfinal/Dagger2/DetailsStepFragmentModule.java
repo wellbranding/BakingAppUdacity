@@ -11,6 +11,7 @@ import udacity.viktor.bakingappfinal.UI.Fragments.DetailsListStepFragment;
 public abstract class DetailsStepFragmentModule {
     @ContributesAndroidInjector()
     abstract DetailStepFragment contributeDetailStepFragmenty();
+
     @ContributesAndroidInjector()
     abstract DetailsListStepFragment contributeDetailsListStepFragmenty();
 }

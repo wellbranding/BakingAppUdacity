@@ -10,7 +10,7 @@ import udacity.viktor.bakingappfinal.Data.Networking.Models.Recipe;
 import udacity.viktor.bakingappfinal.Data.Networking.Models.Step;
 
 
-@Database(entities = {Step.class, Recipe.class, Ingredient.class}, version =  MainDatabase.VERSION)
+@Database(entities = {Step.class, Recipe.class, Ingredient.class}, version = MainDatabase.VERSION)
 public abstract class MainDatabase extends RoomDatabase {
 
     public abstract RecipesMainDao recipeDao();

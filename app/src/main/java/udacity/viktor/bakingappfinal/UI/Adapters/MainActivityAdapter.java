@@ -25,11 +25,12 @@ import udacity.viktor.bakingappfinal.Repository.Resource;
 
 public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapter.MyViewHolder> {
 
-    public interface OnItemCLickListener{
+    public interface OnItemCLickListener {
         void OnItemClick(int position);
     }
 
     private OnItemCLickListener mOnItemCLickListener;
+
     public void setOnItemCLickListener(OnItemCLickListener onItemCLickListener) {
         this.mOnItemCLickListener = onItemCLickListener;
     }
@@ -51,7 +52,7 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         inflater = LayoutInflater.from(context);
         this.context = context;
         recipeList = new ArrayList<>();
-         }
+    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -61,21 +62,20 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-      //  if(recipeList.get(position).getImage().equals(""))
-
-        try{
-            Picasso.with(context)
+        try {
+            Picasso.get()
                     .load(recipeList.get(position).getImage())
                     .placeholder(R.drawable.ic_launcher_background)
                     .into(holder.imageView);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            Picasso.with(context)
+            Picasso.get()
                     .load(R.drawable.sad_03)
                     .into(holder.imageView);
         }
 
         holder.RecipeName.setText(recipeList.get(position).getName());
+        holder.servings.setText(recipeList.get(position).getServings() + " Servings");
 
     }
 
@@ -93,23 +93,17 @@ public class MainActivityAdapter extends RecyclerView.Adapter<MainActivityAdapte
         ImageView imageView;
 
         TextView RecipeName;
+        TextView servings;
 
         MyViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             RecipeName = itemView.findViewById(R.id.recipe_name);
+            servings = itemView.findViewById(R.id.servings);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mOnItemCLickListener.OnItemClick(getAdapterPosition());
-
-
-//
-//                    Intent intent = new Intent(context, MovieActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    intent.putExtra("id", movieList.get(getAdapterPosition()).getId());
-//                    context.startActivity(intent);
-
                 }
             });
 

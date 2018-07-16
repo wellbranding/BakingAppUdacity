@@ -34,7 +34,7 @@ public class IngridientsActivityAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view==object;
+        return view == object;
     }
 
     @NonNull
@@ -55,6 +55,7 @@ public class IngridientsActivityAdapter extends PagerAdapter {
         return view;
 
     }
+
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
 
@@ -81,7 +82,7 @@ public class IngridientsActivityAdapter extends PagerAdapter {
         inflater = LayoutInflater.from(context);
         this.context = context;
         ingredientList = new ArrayList<>();
-        }
+    }
 
 
 }

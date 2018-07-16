@@ -7,9 +7,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 @Entity
-public class Step implements Parcelable
-{
+public class Step implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int roomId;
@@ -42,8 +42,7 @@ public class Step implements Parcelable
             return (new Step[size]);
         }
 
-    }
-            ;
+    };
 
     protected Step(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));

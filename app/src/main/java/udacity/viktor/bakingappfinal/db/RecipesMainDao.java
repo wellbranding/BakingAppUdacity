@@ -8,10 +8,7 @@ import android.arch.persistence.room.Transaction;
 
 import java.util.List;
 
-import udacity.viktor.bakingappfinal.Data.Networking.Models.Ingredient;
 import udacity.viktor.bakingappfinal.Data.Networking.Models.Recipe;
-import udacity.viktor.bakingappfinal.Data.Networking.Models.RecipyForRoom;
-import udacity.viktor.bakingappfinal.Data.Networking.Models.Step;
 
 @Dao
 public interface RecipesMainDao {
@@ -23,7 +20,7 @@ public interface RecipesMainDao {
     public abstract Recipe getRecipe(int id);
 
     @Insert
-    public abstract  void insertAllRecipes(List<Recipe> recipeList);
+    public abstract void insertAllRecipes(List<Recipe> recipeList);
 }
 
 

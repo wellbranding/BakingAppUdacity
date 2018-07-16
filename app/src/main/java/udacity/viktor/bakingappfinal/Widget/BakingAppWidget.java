@@ -24,8 +24,6 @@ public class BakingAppWidget extends AppWidgetProvider {
     @Inject
     SharedPreferences sharedPreferences;
 
-
-
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId[]) {
         inject(this, context);
@@ -40,10 +38,9 @@ public class BakingAppWidget extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.parent_relative_layout_widget, pendingIntent);
 
             String title = sharedPreferences.getString(context.getString(R.string.prefs_widget_recipe_name),
-                    "Add recipe in oder to see");
+                    context.getString(R.string.add_recipe_warning));
 
             views.setTextViewText(R.id.recipe_title_widget, title);
-            // Instruct the widget manager to update the widget
             appWidgetManager.updateAppWidget(singleId, views);
         }
     }
@@ -53,7 +50,7 @@ public class BakingAppWidget extends AppWidgetProvider {
         inject(this, context);
         // There may be multiple widgets active, so update all of them
 
-            updateAppWidget(context, appWidgetManager, appWidgetIds);
+        updateAppWidget(context, appWidgetManager, appWidgetIds);
     }
 
     @Override

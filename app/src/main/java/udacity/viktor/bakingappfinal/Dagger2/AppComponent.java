@@ -23,15 +23,16 @@ import udacity.viktor.bakingappfinal.Widget.BakingAppWidgetService;
 
 public interface AppComponent {
     void inject(App app);
+
     @Component.Builder
-    interface  Builder
-    {
+    interface Builder {
         @BindsInstance
         Builder application(Application application);
 
         AppComponent build();
 
     }
+
     void inject(BakingAppWidget bakingAppWidget);
 
 }

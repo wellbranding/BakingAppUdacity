@@ -7,13 +7,8 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import java.util.List;
-import java.util.Objects;
-
 import udacity.viktor.bakingappfinal.Dagger2.AppExecutors;
 import udacity.viktor.bakingappfinal.Data.Networking.API.ApiResponse;
-import udacity.viktor.bakingappfinal.Data.Networking.Models.Recipe;
-import udacity.viktor.bakingappfinal.Data.Networking.Models.RecipyForRoom;
 
 public abstract class NetworkBoundResource<ResultType, RequestType> {
     private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
@@ -62,7 +57,7 @@ public abstract class NetworkBoundResource<ResultType, RequestType> {
                 });
 
             } else {
-           //     onFetchFailed();
+                //     onFetchFailed();
                 result.addSource(dbSource,
                         newData -> result.setValue(
                                 Resource.error(response.errorMessage, newData)));

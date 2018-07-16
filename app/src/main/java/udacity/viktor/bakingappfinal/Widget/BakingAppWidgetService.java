@@ -23,9 +23,9 @@ public class BakingAppWidgetService extends RemoteViewsService {
 
     @Inject
     SharedPreferences sharedPreferences;
+
     @Override
-    public RemoteViewsFactory onGetViewFactory(Intent intent)
-    {
+    public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new BakingAppWidgetRemoteViewsFactory(getApplicationContext(), sharedPreferences);
     }
 
@@ -35,30 +35,16 @@ public class BakingAppWidgetService extends RemoteViewsService {
         super.onCreate();
     }
 
-    //    public void onClickAddWidget() {
-//        PrefsUtil.setWidgetTitle(getContext(), recipe.getName());
-//        PrefsUtil.setWidgetRecipeId(getContext(), recipe.getId());
-//
-//        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
-//        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
-//                new ComponentName(getContext(), BakingAppWidget.class));
-//
-//        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_listview_ingredients);
-//
-//        BakingAppWidget.updateAppWidget(getContext(), appWidgetManager, appWidgetIds);
-//    }
-    class BakingAppWidgetRemoteViewsFactory implements BakingAppWidgetService.RemoteViewsFactory
-    {
+    class BakingAppWidgetRemoteViewsFactory implements BakingAppWidgetService.RemoteViewsFactory {
 
         MainDatabase mainDatabase;
         Context mContext;
-       SharedPreferences sharedPreferences;
+        SharedPreferences sharedPreferences;
         List<Ingredient> ingredientList;
 
 
-        public BakingAppWidgetRemoteViewsFactory(Context context, SharedPreferences sharedPreferences)
-        {
-            mainDatabase = Room.databaseBuilder(context, MainDatabase.class,"baking_app" )
+        public BakingAppWidgetRemoteViewsFactory(Context context, SharedPreferences sharedPreferences) {
+            mainDatabase = Room.databaseBuilder(context, MainDatabase.class, getString(R.string.room_database_name))
                     .build();
             mContext = context;
             this.sharedPreferences = sharedPreferences;
@@ -74,22 +60,20 @@ public class BakingAppWidgetService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-           int idFromRecipe = sharedPreferences.getInt(mContext.getString(
-                   R.string.prefs_widget_recipe_id), -1);
-           if(idFromRecipe>=0)
-           {
+            int idFromRecipe = sharedPreferences.getInt(mContext.getString(
+                    R.string.prefs_widget_recipe_id), -1);
+            if (idFromRecipe >= 0) {
 
-               Recipe recipeFromId = mainDatabase.recipeDao().getRecipe(idFromRecipe);
+                Recipe recipeFromId = mainDatabase.recipeDao().getRecipe(idFromRecipe);
 
-               if(recipeFromId!=null)
-               {
-                   ingredientList = new ArrayList<>();
-                   ingredientList.addAll(recipeFromId.getIngredients());
+                if (recipeFromId != null) {
+                    ingredientList = new ArrayList<>();
+                    ingredientList.addAll(recipeFromId.getIngredients());
 
-               }
+                }
 
 
-           }
+            }
 
         }
 
@@ -100,9 +84,9 @@ public class BakingAppWidgetService extends RemoteViewsService {
 
         @Override
         public int getCount() {
-           if(ingredientList==null)
-               return 0;
-           return ingredientList.size();
+            if (ingredientList == null)
+                return 0;
+            return ingredientList.size();
 
         }
 
@@ -117,12 +101,12 @@ public class BakingAppWidgetService extends RemoteViewsService {
                     ingredientList.get(position).getMeasure();
 
 
-            RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.text_view_widget);
+            RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(), R.layout.text_view_widget);
             remoteViews.setTextViewText(R.id.list_view_item_widget,
-                    formated );
+                    formated);
             Intent fillIntent = new Intent();
-            remoteViews.setOnClickFillInIntent(R.id.list_view_item_widget, fillIntent );
-            return  remoteViews;
+            remoteViews.setOnClickFillInIntent(R.id.list_view_item_widget, fillIntent);
+            return remoteViews;
         }
 
         @Override

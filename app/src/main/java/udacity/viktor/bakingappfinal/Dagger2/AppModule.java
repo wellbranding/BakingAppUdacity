@@ -28,8 +28,7 @@ import udacity.viktor.bakingappfinal.db.RecipesMainDao;
 public class AppModule {
     @Provides
     @Singleton
-    APIService apiService_create()
-    {
+    APIService apiService_create() {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -49,16 +48,16 @@ public class AppModule {
                 .build();
         return retrofit.create(APIService.class);
     }
+
     @Singleton
     @Provides
-    MainDatabase mainDatabase_create(Application application)
-    {
-        return Room.databaseBuilder(application, MainDatabase.class, "baking_app").build();
+    MainDatabase mainDatabase_create(Application application) {
+        return Room.databaseBuilder(application, MainDatabase.class, "baking_app1").build();
     }
+
     @Provides
     @Singleton
-    SharedPreferences providesSharedPreferences(Application app)
-     {
-         return PreferenceManager.getDefaultSharedPreferences(app);
-     }
+    SharedPreferences providesSharedPreferences(Application app) {
+        return PreferenceManager.getDefaultSharedPreferences(app);
+    }
 }

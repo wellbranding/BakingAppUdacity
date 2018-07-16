@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -37,9 +38,8 @@ import udacity.viktor.bakingappfinal.Widget.BakingAppWidget;
 import static java.security.AccessController.getContext;
 
 public class DetailsOfRecipeActivity extends AppCompatActivity
-implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFragment.OnFragmentInteractionListener,
-       DetailsListListener, HasSupportFragmentInjector
-{
+        implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFragment.OnFragmentInteractionListener,
+        DetailsListListener, HasSupportFragmentInjector {
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private boolean mTwoPane;
@@ -67,31 +67,26 @@ implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFrag
         setContentView(R.layout.details_of_recipe_activity);
 
 
-      //  if(findViewById(R.id.)
-        //
-        // )
-
-         bundle = getIntent().getBundleExtra("values");
-        stepList = bundle.getParcelableArrayList("recipe_steps");
-        recipe_name = bundle.getString("single_recipe_name");
-        recipeId = bundle.getInt("recipe_id");
-        ingredientList = bundle.getParcelableArrayList("recipe_ingridients");
+        bundle = getIntent().getBundleExtra(getString(R.string.values));
+        stepList = bundle.getParcelableArrayList(getString(R.string.recipe_steps));
+        recipe_name = bundle.getString(getString(R.string.single_recipe_name));
+        recipeId = bundle.getInt(getString(R.string.recipe_id));
+        ingredientList = bundle.getParcelableArrayList(getString(R.string.recipe_ingredients));
 
 
-        if(findViewById(R.id.recipe_information_container)!=null)
-        {
+        if (findViewById(R.id.recipe_information_container) != null) {
             mTwoPane = true;
-        }
-        else mTwoPane = false;
+        } else mTwoPane = false;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-       // if(mTwoPane)
+        // if(mTwoPane)
         {
             toolbar.setNavigationOnClickListener(v -> onBackPressed());
             setSupportActionBar(toolbar);
-           getSupportActionBar().setTitle(recipe_name);
-          getSupportActionBar().setDisplayShowHomeEnabled(true);
-          getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            TextView toolbarTitle = findViewById(R.id.toolbar_title);
+            toolbarTitle.setText(recipe_name);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             Button button = findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,15 +95,15 @@ implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFrag
                             R.string.prefs_widget_recipe_id), recipeId).apply();
                     sharedPreferences.edit().putString(getString(
                             R.string.prefs_widget_recipe_name), recipe_name).apply();
-       AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(DetailsOfRecipeActivity.this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
-                new ComponentName(DetailsOfRecipeActivity.this, BakingAppWidget.class));
+                    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(DetailsOfRecipeActivity.this);
+                    int[] appWidgetIds = appWidgetManager.getAppWidgetIds(
+                            new ComponentName(DetailsOfRecipeActivity.this, BakingAppWidget.class));
 
 
-        BakingAppWidget bakingAppWidget = new BakingAppWidget();
-           bakingAppWidget.updateAppWidget(DetailsOfRecipeActivity.this, appWidgetManager, appWidgetIds);
+                    BakingAppWidget bakingAppWidget = new BakingAppWidget();
+                    bakingAppWidget.updateAppWidget(DetailsOfRecipeActivity.this, appWidgetManager, appWidgetIds);
                     appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.recipe_list_widget);
-                    Toast.makeText(DetailsOfRecipeActivity.this, "Display widget and view ingredients ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsOfRecipeActivity.this, R.string.display_widget_toast, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -116,82 +111,66 @@ implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFrag
         }
 
 
-        if(savedInstanceState==null)
-        InitializeViews(mTwoPane);
-        if(mTwoPane)
-        {
+        if (savedInstanceState == null)
+            InitializeViews(mTwoPane);
+        if (mTwoPane) {
 
         }
 
 
-
     }
 
-    private void InitializeViews(boolean mTwoPane)
-    {
-        if(mTwoPane)
-        {
+    private void InitializeViews(boolean mTwoPane) {
+        if (mTwoPane) {
             DetailStepFragment detailStepFragment = new DetailStepFragment();
             Bundle bundle = new Bundle();
-           bundle.putParcelableArrayList("steps", (ArrayList<? extends Parcelable>) stepList);
-             bundle.putInt("current_step", 0);
-            bundle.putBoolean("is_tablet", true);
+            bundle.putParcelableArrayList(getString(R.string.steps), (ArrayList<? extends Parcelable>) stepList);
+            bundle.putInt(getString(R.string.current_step), 0);
+            bundle.putBoolean(getString(R.string.is_tablet), true);
             detailStepFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().
                     add(R.id.recipe_information_container, detailStepFragment).commit();
 
             DetailsListStepFragment detailsListStepFragment = new DetailsListStepFragment();
-            this.bundle.putBoolean("is_tablet", true);
+            this.bundle.putBoolean(getString(R.string.is_tablet), true);
             detailsListStepFragment.setArguments(this.bundle);
-          //  detailsListStepFragment.setFragmentListener(this);
             getSupportFragmentManager().beginTransaction().
                     add(R.id.recipe_steps_container, detailsListStepFragment).commit();
 
 
-        }
-        else
-        {
+        } else {
             DetailsListStepFragment detailsListStepFragment = new DetailsListStepFragment();
-            this.bundle.putBoolean("is_tablet", false);
+            this.bundle.putBoolean(getString(R.string.is_tablet), false);
             detailsListStepFragment.setArguments(bundle);
-
-           // detailsListStepFragment.setFragmentListener(this);
-        getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            getSupportFragmentManager().popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             getSupportFragmentManager().beginTransaction().
                     add(R.id.recipe_steps_container, detailsListStepFragment).
-                  //  addToBackStack(null).
-                    commit();
+                            commit();
 
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
-            ; // close this activity and return to preview activity (if there is any)
         }
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 1) {
-            Log.i("MainActivity", "popping backstack");
             int count = fm.getBackStackEntryCount();
-            for(int i = 0; i < count; ++i) {
+            for (int i = 0; i < count; ++i) {
                 fm.popBackStackImmediate();
             }
-//           fm.popBackStackImmediate();
-//            fm.popBackStack();
         } else {
-            Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
         }
     }
-
 
 
     @Override
@@ -201,35 +180,30 @@ implements DetailsListStepFragment.OnFragmentInteractionListener, DetailStepFrag
 
     @Override
     public void setCurrentStep(int index, boolean firstTime) {
-        if(!mTwoPane)
-        {
+        if (!mTwoPane) {
             DetailStepFragment detailStepFragment = new DetailStepFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("steps", (ArrayList<? extends Parcelable>) stepList);
-            bundle.putInt("current_step", index);
-            bundle.putBoolean("is_tablet", false);
+            bundle.putParcelableArrayList(getString(R.string.steps), (ArrayList<? extends Parcelable>) stepList);
+            bundle.putInt(getString(R.string.current_step), index);
+            bundle.putBoolean(getString(R.string.is_tablet), false);
             detailStepFragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
-            if(firstTime) {
-               fragmentManager.beginTransaction().
-                        replace(R.id.recipe_steps_container, detailStepFragment, "root_fragment").
-                        addToBackStack(null).commit();
-            }
-            else
-            {
+            if (firstTime) {
                 fragmentManager.beginTransaction().
-                        replace(R.id.recipe_steps_container, detailStepFragment, "new_fragment").
+                        replace(R.id.recipe_steps_container, detailStepFragment, getString(R.string.root_fragment)).
+                        addToBackStack(null).commit();
+            } else {
+                fragmentManager.beginTransaction().
+                        replace(R.id.recipe_steps_container, detailStepFragment, getString(R.string.new_fragment)).
                         addToBackStack(null).commit();
             }
 
-        }
-        else
-        {
+        } else {
             DetailStepFragment detailStepFragment = new DetailStepFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("steps", (ArrayList<? extends Parcelable>) stepList);
-            bundle.putInt("current_step", index);
-            bundle.putBoolean("is_tablet", true);
+            bundle.putParcelableArrayList(getString(R.string.steps), (ArrayList<? extends Parcelable>) stepList);
+            bundle.putInt(getString(R.string.current_step), index);
+            bundle.putBoolean(getString(R.string.is_tablet), true);
             detailStepFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().
                     replace(R.id.recipe_information_container, detailStepFragment).

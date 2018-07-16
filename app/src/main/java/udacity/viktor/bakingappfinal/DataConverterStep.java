@@ -12,26 +12,24 @@ import udacity.viktor.bakingappfinal.Data.Networking.Models.Step;
 
 public class DataConverterStep {
     @TypeConverter
-    public String fromCountryLangList(List<Step> countryLang) {
-        if (countryLang == null) {
+    public String fromRoom(List<Step> roomStep) {
+        if (roomStep == null) {
             return (null);
         }
         Gson gson = new Gson();
         Type type = new TypeToken<List<Step>>() {
         }.getType();
-        String json = gson.toJson(countryLang, type);
-        return json;
+        return gson.toJson(roomStep, type);
     }
 
     @TypeConverter
-    public List<Step> toCountryLangList(String countryLangString) {
-        if (countryLangString == null) {
+    public List<Step> toSteps(String step) {
+        if (step == null) {
             return (null);
         }
         Gson gson = new Gson();
         Type type = new TypeToken<List<Step>>() {
         }.getType();
-        List<Step> countryLangList = gson.fromJson(countryLangString, type);
-        return countryLangList;
+        return gson.fromJson(step, type);
     }
 }

@@ -74,7 +74,8 @@
                 app:layout_constraintHorizontal_weight="10"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_arrow_back_black_24dp" />
+                app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+                android:focusable="true" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/forward"
@@ -92,7 +93,8 @@
                 app:layout_constraintHorizontal_weight="10"
                 app:layout_constraintStart_toEndOf="@+id/shortdesc"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+                app:srcCompat="@drawable/ic_arrow_forward_black_24dp"
+                android:focusable="true" />
 
             <TextView
                 android:id="@+id/shortdesc"
@@ -105,7 +107,9 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center_horizontal|center|center_vertical"
-                android:text="ttttt"
+                android:maxLines="2"
+                android:text="@string/tttddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddtt"
+                android:textColor="@color/colorAccent"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -139,7 +143,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical|center|center_horizontal"
-                android:text="dddddddddddddddddddddddddddddffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdddddddddddddddddddddddddddddddddddddoooooooooooddddddddddddddddddddddddddddd"
+                android:text=""
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

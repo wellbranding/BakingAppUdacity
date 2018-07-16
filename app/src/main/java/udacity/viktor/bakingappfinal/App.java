@@ -14,7 +14,7 @@ import dagger.android.HasBroadcastReceiverInjector;
 import dagger.android.HasServiceInjector;
 import udacity.viktor.bakingappfinal.Dagger2.DaggerAppComponent;
 
-public class App extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector{
+public class App extends Application implements HasActivityInjector, HasServiceInjector, HasBroadcastReceiverInjector {
 
 
     @Override
@@ -39,10 +39,12 @@ public class App extends Application implements HasActivityInjector, HasServiceI
     public DispatchingAndroidInjector<Activity> activityInjector() {
         return dispatchingAndroidInjector;
     }
+
     @Override
     public DispatchingAndroidInjector<Service> serviceInjector() {
         return dispatchingServiceInjector;
     }
+
     @Override
     public AndroidInjector<BroadcastReceiver> broadcastReceiverInjector() {
         return dispatchingBroadcastReceiverInjector;

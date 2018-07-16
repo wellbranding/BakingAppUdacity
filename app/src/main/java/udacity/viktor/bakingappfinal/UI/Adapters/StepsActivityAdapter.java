@@ -1,7 +1,10 @@
 package udacity.viktor.bakingappfinal.UI.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,26 +24,38 @@ import udacity.viktor.bakingappfinal.R;
 
 public class StepsActivityAdapter extends RecyclerView.Adapter<StepsActivityAdapter.MyViewHolder> {
 
-    public interface OnItemCLickListener{
+    public interface OnItemCLickListener {
         void OnItemClick(int position);
     }
+    private int currentIndex=-1;
 
     private OnItemCLickListener mOnItemCLickListener;
+
     public void setOnItemCLickListener(OnItemCLickListener onItemCLickListener) {
         this.mOnItemCLickListener = onItemCLickListener;
     }
 
     private LayoutInflater inflater;
-    private Context context;
+    private Context mContext;
     private Cursor mCursor;
     private List<Step> stepList;
+    private int currentPosition;
+    private int selectedPos = RecyclerView.NO_POSITION;
 
+    public int getSelectedPos() {
+        return selectedPos;
+    }
 
-    public StepsActivityAdapter(Context context) {
+    public void setSelectedPos(int selectedPos) {
+        this.selectedPos = selectedPos;
+    }
+
+    public StepsActivityAdapter(Context context, int currentPosition) {
         inflater = LayoutInflater.from(context);
-        this.context = context;
+        mContext = context;
+        this.currentPosition = currentPosition;
         stepList = new ArrayList<>();
-         }
+    }
 
     public List<Step> getStepList() {
         return stepList;
@@ -58,12 +73,14 @@ public class StepsActivityAdapter extends RecyclerView.Adapter<StepsActivityAdap
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-      //  if(recipeList.get(position).getImage().equals(""))
-
-
         holder.StepName.setText(stepList.get(position).getShortDescription());
+        if(selectedPos==position)
+        holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
+        else
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
 
     }
+
 
 
     @Override
@@ -78,21 +95,19 @@ public class StepsActivityAdapter extends RecyclerView.Adapter<StepsActivityAdap
 
         ImageView imageView;
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         TextView StepName;
 
-        MyViewHolder(View itemView) {
+           MyViewHolder(View itemView) {
             super(itemView);
             StepName = itemView.findViewById(R.id.step_name);
             itemView.setOnClickListener(v -> {
+                currentIndex = getAdapterPosition();
                 mOnItemCLickListener.OnItemClick(getAdapterPosition());
-
-
-//
-//                    Intent intent = new Intent(context, MovieActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    intent.putExtra("id", movieList.get(getAdapterPosition()).getId());
-//                    context.startActivity(intent);
-
+                if(currentIndex==getAdapterPosition())
+                {
+                    //itemView.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
+                }
             });
 
 

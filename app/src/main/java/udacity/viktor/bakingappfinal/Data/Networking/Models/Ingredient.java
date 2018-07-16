@@ -8,12 +8,12 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-@Entity
-public class Ingredient implements Parcelable
-{
 
-     @PrimaryKey(autoGenerate = true)
-private int roomId;
+@Entity
+public class Ingredient implements Parcelable {
+
+    @PrimaryKey(autoGenerate = true)
+    private int roomId;
     @SerializedName("quantity")
     @Expose
     private Float quantity;
@@ -37,8 +37,7 @@ private int roomId;
             return (new Ingredient[size]);
         }
 
-    }
-            ;
+    };
 
     protected Ingredient(Parcel in) {
         this.quantity = ((Float) in.readValue((Float.class.getClassLoader())));
